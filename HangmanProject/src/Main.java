@@ -17,6 +17,9 @@ public class Main {
         randomWord = randomWord.toLowerCase();
         char[] randomWordArray = randomWord.toCharArray();
         char[] userGuessArray = new char[randomWordArray.length];
+        // boolean char array to count occurrences of char in char array
+        boolean[] booleanArray = new boolean[randomWord.length()];
+
         System.out.println(randomWordArray);
 
 
@@ -40,16 +43,19 @@ public class Main {
             userInputGuessChar = userInputGuess.charAt(0);
 
             if (contains(userInputGuessChar, randomWordArray)) {
+                if (contains(userInputGuessChar, userGuessArray)) {
+                    System.out.println("You've already tried this letter, please try again: ");
+                } else {
                 for (int i = 0; i <= randomWordArray.length - 1; i++) {
 
 
-                    if (randomWordArray[i] == userInputGuessChar && userGuessArray[i] == 0) {
+                    if (randomWordArray[i] == userInputGuessChar) {
                         userGuessArray[i] = userInputGuessChar;
                         System.out.println(userGuessArray);
-                        break;
 
-                        }
+                    }
 
+                }
                 }
             } else {
                 guessesAvailable--;
