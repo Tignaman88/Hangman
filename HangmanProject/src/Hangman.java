@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Hangman {
 
+    static int userAttempts = 0;
+
     public void hangmanGame() {
 
         String[] words = {"Hello", "Simple", "Hunter", "Bottles", "Hangman",
@@ -17,6 +19,7 @@ public class Hangman {
         randomWord = randomWord.toLowerCase();
         char[] randomWordArray = randomWord.toCharArray();
         char[] userGuessArray = new char[randomWordArray.length];
+        Arrays.fill(userGuessArray, '_');
 
 
         int guessesAvailable = 7;
@@ -29,7 +32,6 @@ public class Hangman {
 
 
         while (guessesAvailable > 0) {
-
 
             userInputGuessChar = userInput(scanner);
 
@@ -47,10 +49,12 @@ public class Hangman {
                 System.out.println("You've already tried this letter, please try again: ");
                 System.out.println("Correct word: " + new String(userGuessArray));
             } else {
-                addRightGuessToUserGuessArray(randomWordArray, userInputGuessChar, userGuessArray);
+               addRightGuessToUserGuessArray(randomWordArray, userInputGuessChar, userGuessArray);
+               userAttempts++;
             }
         } else {
             guessesAvailable--;
+            userAttempts++;
             System.out.println("Wrong! You now only have " + guessesAvailable + " guesses available");
             System.out.println("Correct word: " + new String(userGuessArray));
         }
@@ -61,20 +65,22 @@ public class Hangman {
     private static void addRightGuessToUserGuessArray(char[] randomWordArray, char userInputGuessChar, char[] userGuessArray) {
         for (int i = 0; i <= randomWordArray.length - 1; i++) {
 
-
             if (randomWordArray[i] == userInputGuessChar) {
                 userGuessArray[i] = userInputGuessChar;
-                System.out.println("Correct word: " + new String(userGuessArray));
 
             }
 
+
         }
+
+        System.out.println("Correct word: " + new String(userGuessArray));
+
     }
 
     private static int gameWon(char[] randomWordArray, char[] userGuessArray, int guessesAvailable) {
         if (Arrays.equals(randomWordArray, userGuessArray)) {
             String correctWord = new String(userGuessArray);
-            System.out.println("Well done! You guessed the word " + correctWord);
+            System.out.println("Well done! You guessed the word " + correctWord + " in " + userAttempts + " attempts!");
             guessesAvailable = 0;
         }
         return guessesAvailable;
